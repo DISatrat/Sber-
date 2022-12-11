@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -13,21 +16,53 @@ public class DemoApplication {
 
     public static void main(String[] args) throws IOException {
 
-        String file2="src/main/java/com/example/demo/city_ru1.csv";
-        Path path2= Paths.get(file2);
+        String file2 = "src/main/java/com/example/demo/city_ru1.csv";
+        Path path2 = Paths.get(file2);
+        Scanner scanner1 = new Scanner(path2);
 
-        Scanner scanner1=new Scanner(path2);
+        //вывод всех городов
 
-        while(scanner1.hasNext()){
+//        while(scanner1.hasNext()){
+//
+//            City city=CreateCity(scanner1.nextLine());
+//            System.out.println(city.toString());
+//
+//        }
 
-            City city=CreateCity(scanner1.nextLine());
-            System.out.println(city.toString());
+        // сортировка гордов в алфавитном порядке
 
-        }
+//        ArrayList<City> cities=new ArrayList<>();
+//        while(scanner1.hasNext()){
+//
+//        City city=CreateCity(scanner1.nextLine());
+//        cities.add(city);
+//
+//        }
+//
+//        cities.sort(Comparator.comparing(City::getName));
+//        for (int i = 0; i < cities.size(); i++) {
+//            System.out.println(cities.get(i));
+//        }
 
+        // сортировка городов по округу и имени
+
+//        ArrayList<City>cities2=new ArrayList<>();
+//        while (scanner1.hasNext()){
+//            City city=CreateCity(scanner1.nextLine());
+//            cities2.add(city);
+//        }
+//        cities2.sort(Comparator.comparing(City::getDistrict).thenComparing(City::getName));
+//
+//
+//        for (int i = 0; i < cities2.size(); i++) {
+//            System.out.println(cities2.get(i));
+//        }
+
+        
         SpringApplication.run(DemoApplication.class, args);
     }
-    private static City CreateCity( String line) {
+
+    private static City CreateCity(String line) {
 
         String[] ArrayLines;
         ArrayLines = line.split(";");
@@ -36,14 +71,15 @@ public class DemoApplication {
         String region = ArrayLines[2];
         String district = ArrayLines[3];
         String population = ArrayLines[4];
-        String foundation ="неизвестно";
-        if(ArrayLines.length==6) {foundation=ArrayLines[5];}
+        String foundation = "неизвестно";
+        if (ArrayLines.length == 6) {
+            foundation = ArrayLines[5];
+        }
 
-        DemoApplication jfs = new DemoApplication();
-
-        return jfs.new City(name,region,district,population,foundation);
+        return new City(name,region,district,population,foundation);
     }
-    public class City {
+
+    public static class City extends ArrayList<City> {
         private String name;
         private String region;
         private String district;
@@ -58,12 +94,50 @@ public class DemoApplication {
             this.foundation = foundation;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getRegion() {
+            return region;
+        }
+
+        public void setRegion(String region) {
+            this.region = region;
+        }
+
+        public String getDistrict() {
+            return district;
+        }
+
+        public void setDistrict(String district) {
+            this.district = district;
+        }
+
+        public String getPopulation() {
+            return population;
+        }
+
+        public void setPopulation(String population) {
+            this.population = population;
+        }
+
+        public String getFoundation() {
+            return foundation;
+        }
+
+        public void setFoundation(String foundation) {
+            this.foundation = foundation;
+        }
+
         @Override
-        public String toString(){
-            return "City{name='"+this.name+"', region='"+this.region+"', district='"+this.district+"', population="+this.population+", foundation='"+this.foundation+"'}";
+        public String toString() {
+            return "City{name='" + this.name + "', region='" + this.region + "', district='" + this.district + "', population=" + this.population + ", foundation='" + this.foundation + "'}";
 
         }
     }
-
-
 }
